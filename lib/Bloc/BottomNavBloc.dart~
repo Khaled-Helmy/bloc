@@ -1,0 +1,33 @@
+import 'dart:async';
+
+import 'package:news_app/InterFace/disposable.dart';
+
+enum IteamTabBar {Home , Exploer , Popular}
+
+class TabBarBloc implements disposable{
+final StreamController<IteamTabBar> _streamControllerTab = StreamController<IteamTabBar>.broadcast();
+IteamTabBar defultIteam = IteamTabBar.Home ;
+Stream<IteamTabBar> get IteamStream => _streamControllerTab.stream;
+
+void chooseIteam (int i ){
+ switch(i){
+   case 0 :
+     _streamControllerTab.sink.add(IteamTabBar.Home);
+     break ;
+   case 1 :
+     _streamControllerTab.sink.add(IteamTabBar.Exploer);
+     break ;
+   case 2 :
+     _streamControllerTab.sink.add(IteamTabBar.Popular);
+     break ;
+
+ }
+
+}
+
+  @override
+  void dispose() {
+   _streamControllerTab.close();
+  }
+
+}

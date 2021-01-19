@@ -1,0 +1,32 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/Bloc/HomeBloc/Events.dart';
+import 'package:news_app/Bloc/TopStoriesBloc/TopStoriesEvents.dart';
+import 'package:news_app/Bloc/TopStoriesBloc/TopStoriesStates.dart';
+import 'package:news_app/Bloc/updateRecentBloc/EventsUpdateRecent.dart';
+import 'package:news_app/Bloc/updateRecentBloc/StatesUpdateRecent.dart';
+import 'package:news_app/network/NewsClinet.dart';
+import '';
+
+class TopStoriesBloc extends Bloc<TopStoriesEvents , TopStoriesStates>{
+  final NewsClient newsClient ;
+   String sourcesId = "sources";
+
+  TopStoriesBloc(TopStoriesInitialState initialStateTopStories, this.newsClient) : super(initialStateTopStories);
+
+
+  @override
+  Stream<TopStoriesStates> mapEventToState(TopStoriesEvents event) async*{
+    if (event is TopStories_Fetch_HeadLine_BBcNews) {
+      yield TopStoriesLoadingState();
+      try {
+        var headLines = await newsClient.fetch_HeadLine("sources", "bbc-news");
+        yield TopStories_SuccessState(articles: headLines);
+      } catch (e) {
+        yield TopStoriesErrorState(massage: e.toString());
+      }
+    }
+  }
+
+
+
+}
