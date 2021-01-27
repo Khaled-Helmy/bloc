@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/Bloc/HomeBloc/SourciesBloc/SouriesBloc.dart';
 import 'package:news_app/Bloc/HomeBloc/SourciesBloc/SouriesEvents.dart';
 import 'package:news_app/Bloc/HomeBloc/SourciesBloc/SouriesStates.dart';
-import 'package:news_app/Models/SourceModel.dart';
-import 'package:news_app/Models/SourceResponse.dart';
+import 'package:news_app/Models/SourceModels/SourceModel.dart';
+import 'package:news_app/Models/SourceModels/SourceResponse.dart';
 import 'package:news_app/Screen/StateScreen/StateScreen.dart';
 
 class SourcesHome extends StatefulWidget {
@@ -23,6 +23,11 @@ class _SourcesHomeState extends State<SourcesHome> {
     super.initState();
   }
   @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
   
     return BlocBuilder<SourciesBloc , SourciesStates>(
@@ -33,11 +38,21 @@ class _SourcesHomeState extends State<SourcesHome> {
           }else if (state is SourciesLoadingState){
             return LoadingStateScreen();
           }else if (state is SuccessState_Sources_Home){
-            return  drawSourcesList(state.sources);
+            return (state.sources != null) ?
+            drawSourcesList(state.sources):
+            LoadingStateScreen();
           }else if (state is SourciesErrorState){
-            return Center(child: Text(state.massage),);
+            return new Center(child:
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                new Text("May be No Internet To Connection Please Check Your Connection and TryAgin" ,
+                  style: TextStyle(color: Colors.red.shade900 , fontSize: 16), textAlign: TextAlign.center,),
+                new Text(state.massage),
+              ],));
           }else
-            return Container(child: Text("error"),);
+            return new Container(child: Text("error"),);
 
         });
   }
@@ -45,18 +60,18 @@ class _SourcesHomeState extends State<SourcesHome> {
   Widget drawSourcesList(SourceResponse sourceResponse) {
     List<SourceModel> sources = sourceResponse.sources;
     if(sources.length == 0 ){
-      return  Center(child: Container(child: Text("No Iteam" ,
+      return  new Center(child: Container(child: Text("No Iteam" ,
         style: TextStyle(fontSize: 24 , fontWeight: FontWeight.bold , color: Colors.red.shade900),),),);
     }else
-      return Container(
+      return new Container(
         height: 140,
-        child: ListView.builder(
+        child: new ListView.builder(
             itemCount: sources.length,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             physics: ScrollPhysics(),
             itemBuilder: (context , index){
-          return Card(
+          return new Card(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)
                     , bottomLeft: Radius.circular(8) , bottomRight: Radius.circular(8)),
@@ -66,9 +81,9 @@ class _SourcesHomeState extends State<SourcesHome> {
             shadowColor: Colors.black,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
+              child: new Column(
                 children: [
-                  Container(
+                  new Container(
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
@@ -77,17 +92,17 @@ class _SourcesHomeState extends State<SourcesHome> {
                     child: ImagesRandom(),
                   ),
                   (sources[index].name != null)?
-                  Text(sources[index].name
+                  new Text(sources[index].name
                     ,style: TextStyle(fontWeight: FontWeight.bold , fontSize: 16), ):
-                  Text("Loading.."),
+                  const Text("Loading.."),
                   (sources[index].country != null)?
-                  Text(sources[index].country
+                  new Text(sources[index].country
                     ,style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 14 , color: Colors.grey), ):
-                  Text("Loading.."),
+                  const Text("Loading.."),
                   (sources[index].category != null)?
-                  Text(sources[index].category
+                  new Text(sources[index].category
                     ,style: TextStyle(fontWeight: FontWeight.bold , fontSize: 12 , color: Colors.red.shade900), ):
-                  Text("Loading.."),
+                  const Text("Loading.."),
                 ],
               ),
             ),
@@ -97,7 +112,7 @@ class _SourcesHomeState extends State<SourcesHome> {
   }
 
  Widget ImagesRandom (){
-    List<String> imges = [
+  const List<String> imges = [
       "assets/images/background.jpg",
       "assets/images/abclogo.jpg",
       "assets/images/ap.jpg",
@@ -114,7 +129,7 @@ class _SourcesHomeState extends State<SourcesHome> {
     return  Image.asset(name_image , fit: BoxFit.cover,);
 }
   Color ColorsRandom (){
-    List<Color> colors = [
+     List<Color> colors = [
       Colors.red.shade900,
       Colors.blue.shade900,
       Colors.green.shade900,

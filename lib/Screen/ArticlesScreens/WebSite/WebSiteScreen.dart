@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/Bloc/Poitical_Figuar/TrumpBloc/TrumpBloc.dart';
-import 'package:news_app/Bloc/Poitical_Figuar/TrumpBloc/TrumpEvents.dart';
-import 'package:news_app/Bloc/Poitical_Figuar/TrumpBloc/TrumpStates.dart';
-import 'package:news_app/Models/ArticelsModel.dart';
-import 'package:news_app/Models/BaseNews.dart';
+import 'package:flutter_offline/flutter_offline.dart';
+import 'package:news_app/Bloc/Articles/WebSiteBloc/WebSiteBloc.dart';
+import 'package:news_app/Bloc/Articles/WebSiteBloc/WebSiteEvents.dart';
+import 'package:news_app/Bloc/Articles/WebSiteBloc/WebSiteStates.dart';
+import 'package:news_app/Models/ArticlesModels/ArticelsModel.dart';
 import 'package:news_app/Screen/SinglePostPage.dart';
 import 'package:news_app/Screen/StateScreen/StateScreen.dart';
+import 'package:news_app/utilties/Handle_DateTime.dart';
 
 
 
-class TrumpScreen extends StatefulWidget {
+class WebSiteScreen extends StatefulWidget {
   @override
-  _TrumpScreenState createState() => _TrumpScreenState();
+  _WebSiteScreenState createState() => _WebSiteScreenState();
 }
-class _TrumpScreenState extends State<TrumpScreen> {
-TrumpBloc bloc ;
+class _WebSiteScreenState extends State<WebSiteScreen> {
+WebSiteBloc bloc ;
 final _scrollController = ScrollController();
 final _scrollThreshold = 200.0;
 
@@ -24,8 +25,8 @@ final _scrollThreshold = 200.0;
 @override
   void initState() {
   _scrollController.addListener(_onScroll);
-  bloc = BlocProvider.of<TrumpBloc>(context );
-  bloc.add(Fetch_HeadLine_Trmup());
+  bloc = BlocProvider.of<WebSiteBloc>(context );
+  bloc.add(Fetch_Popular_WebSite());
     super.initState();
 
   }
@@ -36,43 +37,48 @@ final _scrollThreshold = 200.0;
   }
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-    body: BlocBuilder<TrumpBloc , TrumpStates>(
-        builder: (context , state){
-          if(state is TrumpInitialState){
-            return InitialStateScreen();
+  return new  BlocBuilder<WebSiteBloc , WebSiteStates>(
+      builder: (context , state){
+        if(state is WebSiteInitialState){
+          return InitialStateScreen();
+        }
+        if(state is WebSiteErrorState){
+          return new Center(child:
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("May be No Internet To Connection Please Check Your Connection and TryAgin" ,
+                style: TextStyle(color: Colors.red.shade900 , fontSize: 16), textAlign: TextAlign.center,),
+              Text(state.massage),
+            ],));
+        }
+        if(state is SuccessStateWebSite){
+          if (state.webSites.isEmpty){
+            return const Center(child: Text("No data"),);
           }
-          if(state is TrumpErrorState){
-            return Center(child: Text(state.massage),);
-          }
-          if(state is SuccessStateTrump){
-            List<ArticleModel> list = state.trumpnews;
-           if (list.isEmpty){
-             return Center(child: Text("No data"),);
-           }
-           return ListView.builder(
+          return ListView.builder(
 
-               itemBuilder: (context ,int index){
-                 return index >= list.length ?
-                     BottomLoader() :
-                     PostWigdet(post: list[index],);
-               },
-             itemCount: state.hasReachedMax ?
-            list.length :
-             list.length +1,
-             controller: _scrollController,
-               );
-          } else
-            return Center(child: InitialStateScreen(),);
-        }),
-  );
+            itemBuilder: (context ,int index){
+              return index >= state.webSites.length ?
+              BottomLoader() :
+              PostWigdet(post: state.webSites[index],);
+            },
+            itemCount: state.hasReachedMax ?
+            state.webSites.length :
+            state.webSites.length +1,
+            controller: _scrollController,
+          );
+        } else
+          return Center(child: Text("Error"),);
+      });
   }
 
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (maxScroll - currentScroll <= _scrollThreshold) {
-      bloc.add(Fetch_HeadLine_Trmup());
+      bloc.add(Fetch_Popular_WebSite());
     }
   }
 
@@ -81,7 +87,7 @@ final _scrollThreshold = 200.0;
 class BottomLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return new Container(
       alignment: Alignment.center,
       child: Center(
         child: SizedBox(
@@ -101,7 +107,7 @@ class PostWigdet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return new Padding(
       padding: const EdgeInsets.all(12.0),
       child: Card(
         elevation: 6,
@@ -154,6 +160,9 @@ class PostWigdet extends StatelessWidget {
                   style: TextStyle( fontSize: 16 ,color: Colors.black54),
                   textAlign: TextAlign.start,),
               ),
+              Text(post.publishedAt != null ?
+              timeAgo(DateTime.parse(post.publishedAt))
+                  :"LOading.."),
               SizedBox(width: double.infinity, height: 1, child: Container(color: Colors.red.shade900,) )
               ,Padding(
                 padding: const EdgeInsets.all(8.0),

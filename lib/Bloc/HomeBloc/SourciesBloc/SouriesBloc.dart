@@ -12,15 +12,14 @@ class SourciesBloc extends Bloc<SouriesEvents , SourciesStates>{
 
   @override
   Stream<SourciesStates> mapEventToState(SouriesEvents event) async*{
+   final currentState = state ;
     if (event is Fetch_Sources_Home){
-      yield SourciesLoadingState();
       try {
-        var sources = await newsClient.fetch_Sources();
+        final sources = await newsClient.fetch_Sources();
         yield SuccessState_Sources_Home(sources: sources);
       }catch(e){
         yield SourciesErrorState(massage: e.toString());
       }
-
     }
   }
 

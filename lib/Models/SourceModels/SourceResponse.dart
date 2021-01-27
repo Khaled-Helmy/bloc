@@ -1,5 +1,5 @@
 
-import 'package:news_app/Models/SourceModel.dart';
+import 'SourceModel.dart';
 
 class SourceResponse {
   final List<SourceModel> sources ;

@@ -11,8 +11,8 @@ class TopStoriesBloc extends Bloc<TopStoriesEvents , TopStoriesStates>{
 
   @override
   Stream<TopStoriesStates> mapEventToState(TopStoriesEvents event) async*{
+    final currentState = state ;
     if (event is TopStories_Fetch_HeadLine_BBcNews) {
-      yield TopStoriesLoadingState();
       try {
         var headLines = await newsClient.fetch_HeadLine("sources", "bbc-news");
         yield TopStories_SuccessState(articles: headLines);

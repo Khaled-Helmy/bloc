@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/Bloc/HomeBloc/updateRecentBloc/EventsUpdateRecent.dart';
 import 'package:news_app/Bloc/HomeBloc/updateRecentBloc/StatesUpdateRecent.dart';
 import 'package:news_app/Bloc/HomeBloc/updateRecentBloc/UpdateRecentBloc.dart';
-import 'package:news_app/Models/ArticelsModel.dart';
-import 'package:news_app/Models/ArticleResponse.dart';
+import 'package:news_app/Models/ArticlesModels/ArticelsModel.dart';
+import 'package:news_app/Models/ArticlesModels/ArticleResponse.dart';
+
 import 'package:news_app/Screen/StateScreen/StateScreen.dart';
 import 'package:news_app/utilties/Handle_DateTime.dart';
 class UpdateRecentHome extends StatefulWidget {
@@ -30,7 +31,8 @@ class _UpdateRecentHomeState extends State<UpdateRecentHome> {
         }else if (state is LoadingStateUpdateRecent){
           return LoadingStateScreen();
         }else if (state is SuccessState_EveryThing_UpdateRecent){
-          return SingleChildScrollView(
+          return (state.articles != null) ?
+          SingleChildScrollView(
             physics: ScrollPhysics(),
             child: Column(
               children: [
@@ -59,9 +61,18 @@ class _UpdateRecentHomeState extends State<UpdateRecentHome> {
                 bulid_card2_UpdateRecent(state.articles , context),
               ],
             ),
-          );
+          ):
+          LoadingStateScreen();
         }else if (state is ErrorStateUpdateRecent){
-          return Center(child: Text(state.massage),);
+          return new Center(child:
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              new Text("May be No Internet To Connection Please Check Your Connection and TryAgin" ,
+                style: TextStyle(color: Colors.red.shade900 , fontSize: 16), textAlign: TextAlign.center,),
+              new Text(state.massage),
+            ],));
         }else
           return Center(child: Text("Error"),);
 

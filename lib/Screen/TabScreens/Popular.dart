@@ -4,10 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/Bloc/HomeBloc/PopularBloc/PopularBloc.dart';
 import 'package:news_app/Bloc/HomeBloc/PopularBloc/PopularEvents.dart';
 import 'package:news_app/Bloc/HomeBloc/PopularBloc/PopularStates.dart';
-import 'package:news_app/Models/ArticelsModel.dart';
+import 'package:news_app/Models/ArticlesModels/ArticelsModel.dart';
 import 'package:news_app/Screen/StateScreen/StateScreen.dart';
 import 'package:news_app/utilties/Handle_DateTime.dart';
-
 import '../SinglePostPage.dart';
 
 class Popular extends StatefulWidget {
@@ -33,22 +32,33 @@ class _PopularState extends State<Popular> {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PopularBloc , PopularStates>(
+    return new BlocBuilder<PopularBloc , PopularStates>(
         builder: (context , state){
           if(state is PopularInitialState){
             return InitialStateScreen();
           }
+          if(state is PopularLoadingState){
+            return LoadingStateScreen();
+          }
           if(state is PopularErrorState){
-            return Center(child: Text(state.massage),);
+            return new Center(child:
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                new Text("May be No Internet To Connection Please Check Your Connection and TryAgin" ,
+                  style: TextStyle(color: Colors.red.shade900 , fontSize: 16), textAlign: TextAlign.center,),
+                new Text(state.massage),
+              ],));
           }
           if(state is SuccessStatePopular){
             if (state.populars.isEmpty){
-              return Center(child: Text("No data"),);
+              return const Center(child: Text("No data"),);
             }
-            return ListView.builder(
+            return new ListView.builder(
               itemBuilder: (context ,int index){
                 return index >= state.populars.length ?
-                BottomLoader() :
+                 BottomLoader() :
                 PostWigdet(post: state.populars[index],);
               },
               itemCount: state.hasReachedMax ?
@@ -59,6 +69,9 @@ class _PopularState extends State<Popular> {
           }
           return Center(child: Text("SomeThing wrong"),);
         });
+
+
+
   }
 
   void _onScroll() {
@@ -74,7 +87,7 @@ class BottomLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Container(
       alignment:  Alignment.center,
-      child: Center(
+      child: new Center(
         child: SizedBox(
           width: 33,
           height: 33,

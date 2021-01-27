@@ -8,6 +8,7 @@ abstract class BaseNews {
   String publishedAt;
   String content ;
 
-  BaseNews({this.author, this.title, this.description,this.url , this.urlToImage,this.publishedAt, this.content  });
+  BaseNews({this.author, this.title, this.description,this.url ,
+    this.urlToImage,this.publishedAt, this.content  });
 
 }

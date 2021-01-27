@@ -7,22 +7,22 @@ import 'package:news_app/Screen/TabScreens/HomeFlie/UpdateRecentHome.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return new SafeArea(
+      child: new Scaffold(
+        body: new SingleChildScrollView(
           physics: ScrollPhysics(),
-          child: Column(
+          child: new Column(
             children: [
-              HeadLineHome(),
+              new HeadLineHome(),
               Line(),
               const SizedBox(
                 height: 5,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Row(
+                child:new  Row(
                   children: [
-                    Text(
+                    new Text(
                       "T",
                       style: TextStyle(
                         color: Colors.red.shade900,
@@ -31,7 +31,7 @@ class Home extends StatelessWidget {
                       ),
                       textAlign: TextAlign.start,
                     ),
-                    Text(
+                    new Text(
                       "op",
                       style: TextStyle(
                         color: Colors.grey,
@@ -40,10 +40,10 @@ class Home extends StatelessWidget {
                       ),
                       textAlign: TextAlign.start,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
-                    Text(
+                    new Text(
                       "C",
                       style: TextStyle(
                         color: Colors.black,
@@ -52,7 +52,7 @@ class Home extends StatelessWidget {
                       ),
                       textAlign: TextAlign.start,
                     ),
-                    Text(
+                    new Text(
                       "hannel",
                       style: TextStyle(
                         color: Colors.grey,
@@ -67,29 +67,29 @@ class Home extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              SourcesHome(),
+              new SourcesHome(),
               const SizedBox(
                 height: 10,
               ),
-              Divider(
+              new Divider(
                 height: 20.0,
                 color: Colors.red.shade900,
               ),
               const SizedBox(
                 height: 10,
               ),
-              TopStoriesHome(),
+              new TopStoriesHome(),
               const SizedBox(
                 height: 10,
               ),
-              Divider(
+              new Divider(
                 height: 20.0,
                 color: Colors.red.shade900,
               ),
               const SizedBox(
                 height: 10,
               ),
-              UpdateRecentHome(),
+              new UpdateRecentHome(),
             ],
           ),
         ),
@@ -100,10 +100,10 @@ class Home extends StatelessWidget {
   Widget Line() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
+      child:new SizedBox(
         width: double.infinity,
         height: 1,
-        child: Container(
+        child: new Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [

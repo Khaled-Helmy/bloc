@@ -16,7 +16,8 @@ class WelcomePageController {
     list_welcomePage.add(
       WelcomePageModel(
         "NEWS",
-        "this application allow to show the news in world to you can be active in life , if you do not need show more screens push get started ",
+        "This application gives you the powers to know information about all the news that occurs around you in the world"
+            " , so one of its requirements is to be connected to the Internet ",
         Lottie.asset(
             "assets/animation/scoundnews.json",
             fit: BoxFit.fill , height: 300 , width: double.infinity),
@@ -25,7 +26,10 @@ class WelcomePageController {
     list_welcomePage.add(
       WelcomePageModel(
         "LETS GO",
-        "you are now a clint in application , this app provided a new news in Live , general news in Poplur  and top stories in Top Stories ",
+        "You will always be fully aware of new news from political people such as Trump, the famous channels such as the BBC, "
+            "currency news and trade in some countries such as America and Germany, "
+            "and you can also add what you want to your favorite page and search for specific news if you want."
+         "We are glad you enjoy our app.",
         Lottie.asset("assets/animation/threednews.json",
             fit: BoxFit.fill , width: 300 , height: 300 ),
       ),

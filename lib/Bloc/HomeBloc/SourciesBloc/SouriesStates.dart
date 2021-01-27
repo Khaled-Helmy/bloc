@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_app/Models/SourceResponse.dart';
+import 'package:news_app/Models/SourceModels/SourceResponse.dart';
 
 
 

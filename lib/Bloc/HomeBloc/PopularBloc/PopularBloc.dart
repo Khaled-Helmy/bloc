@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/network/NewsClinet.dart';
 import 'PopularEvents.dart';
@@ -10,6 +11,7 @@ import 'package:rxdart/rxdart.dart';
 
 class PopularBloc extends Bloc<PopularEvents , PopularStates>{
   final NewsClient newsClient ;
+
 
   PopularBloc(PopularInitialState initialState, this.newsClient) : super(initialState);
 
@@ -27,6 +29,7 @@ class PopularBloc extends Bloc<PopularEvents , PopularStates>{
   @override
   Stream<PopularStates> mapEventToState(PopularEvents event) async*{
     final currentState = state;
+
     if (event is Fetch_Popular && !_hasReachedMax(currentState)) {
       try {
         if (currentState is PopularInitialState) {

@@ -1,5 +1,5 @@
 import 'package:news_app/InterFace/disposable.dart';
-import 'package:news_app/Models/ArticleResponse.dart';
+import 'package:news_app/Models/ArticlesModels/ArticleResponse.dart';
 import 'package:news_app/network/NewsClinet.dart';
 import 'package:rxdart/rxdart.dart';
 

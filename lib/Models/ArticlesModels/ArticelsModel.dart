@@ -1,7 +1,6 @@
-import 'package:news_app/Models/SourceModel.dart';
+import 'file:///G:/Flutter%20Projects/news_app/lib/Models/SourceModels/SourceModel.dart';
 
-import 'BaseNews.dart';
-
+import '../BaseNews.dart';
 class ArticleModel extends BaseNews {
   SourceModel sourceModel ;
   ArticleModel({this.sourceModel , String author, String title, String description,String url , String urlToImage , String publishedAt, String content})

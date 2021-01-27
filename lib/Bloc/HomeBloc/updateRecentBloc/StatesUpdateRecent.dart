@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_app/Models/ArticelsModel.dart';
-import 'package:news_app/Models/ArticleResponse.dart';
+import 'package:news_app/Models/ArticlesModels/ArticleResponse.dart';
 import 'package:news_app/Models/BaseNews.dart';
 
 

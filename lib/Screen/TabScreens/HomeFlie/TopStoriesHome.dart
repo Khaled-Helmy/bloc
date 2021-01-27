@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/Bloc/HomeBloc/TopStoriesBloc/TopStoriesBloc.dart';
 import 'package:news_app/Bloc/HomeBloc/TopStoriesBloc/TopStoriesEvents.dart';
 import 'package:news_app/Bloc/HomeBloc/TopStoriesBloc/TopStoriesStates.dart';
-import 'package:news_app/Models/ArticelsModel.dart';
-import 'package:news_app/Models/ArticleResponse.dart';
+import 'package:news_app/Models/ArticlesModels/ArticelsModel.dart';
+import 'package:news_app/Models/ArticlesModels/ArticleResponse.dart';
 import 'package:news_app/Screen/StateScreen/StateScreen.dart';
 import 'package:news_app/utilties/Handle_DateTime.dart';
 class TopStoriesHome extends StatefulWidget {
@@ -22,7 +22,7 @@ class _TopStoriesHomeState extends State<TopStoriesHome> {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TopStoriesBloc , TopStoriesStates>(
+    return new BlocBuilder<TopStoriesBloc , TopStoriesStates>(
         cubit: bloc,
         builder: (context ,state){
           if(state is TopStoriesInitialState){
@@ -30,44 +30,56 @@ class _TopStoriesHomeState extends State<TopStoriesHome> {
           }else if (state is TopStoriesLoadingState){
             return LoadingStateScreen();
           }else if (state is TopStories_SuccessState){
-            return  Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Top" ,
-                        style: TextStyle(color: Colors.black , fontSize: 24 , fontWeight: FontWeight.bold)
-                        ,textAlign: TextAlign.start,),
-                      SizedBox(width: 5,),
-                      Text("Stories" ,
-                        style: TextStyle(color: Colors.grey , fontSize: 24 , fontWeight: FontWeight.bold)
-                        ,textAlign: TextAlign.start,),
-                      SizedBox(width: 10,),
-                      Text("BBc" ,
-                        style: TextStyle(color: Colors.red.shade900, fontSize: 24 , fontWeight: FontWeight.bold)
-                        ,textAlign: TextAlign.start,),
-                      SizedBox(width: 5,),
-                      Text("News" ,
-                        style: TextStyle(color: Colors.grey , fontSize: 24 , fontWeight: FontWeight.bold)
-                        ,textAlign: TextAlign.start,),
-                    ],
-                  ),
-                ),
-                build_card(state.articles, context),
-              ],
-            ) ;
+           return (state.articles != null) ?
+           draw_TopStories(context , state.articles):
+           LoadingStateScreen();
           }else if (state is TopStoriesErrorState){
-            return Center(child: Text(state.massage),);
+            return new Center(child:
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                new Text("May be No Internet To Connection Please Check Your Connection and TryAgin" ,
+                  style: TextStyle(color: Colors.red.shade900 , fontSize: 16), textAlign: TextAlign.center,),
+                new Text(state.massage),
+              ],));
           }else
-           return Container(child: Text("Error"),);
+           return new Container(child: Text("Error"),);
 
         });
   }
 }
-
+Widget draw_TopStories (BuildContext context , ArticleResponse articleResponse){
+  return new  Column(
+    children: [
+      new Container(
+        margin: EdgeInsets.only(left: 10),
+        child: new  Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            new Text("Top" ,
+              style: TextStyle(color: Colors.black , fontSize: 24 , fontWeight: FontWeight.bold)
+              ,textAlign: TextAlign.start,),
+            SizedBox(width: 5,),
+            Text("Stories" ,
+              style: TextStyle(color: Colors.grey , fontSize: 24 , fontWeight: FontWeight.bold)
+              ,textAlign: TextAlign.start,),
+            SizedBox(width: 10,),
+            Text("BBc" ,
+              style: TextStyle(color: Colors.red.shade900, fontSize: 24 , fontWeight: FontWeight.bold)
+              ,textAlign: TextAlign.start,),
+            SizedBox(width: 5,),
+            Text("News" ,
+              style: TextStyle(color: Colors.grey , fontSize: 24 , fontWeight: FontWeight.bold)
+              ,textAlign: TextAlign.start,),
+          ],
+        ),
+      ),
+      build_card(articleResponse, context),
+    ],
+  ) ;
+}
 Widget build_card(ArticleResponse headLineBBc , context) {
  List<ArticleModel> list = headLineBBc.articles;
  if(list.length == 0 ){

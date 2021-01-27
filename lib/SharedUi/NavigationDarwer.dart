@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/Screen/ArticlesScreens/BitConeScreen.dart';
-import 'package:news_app/Screen/ArticlesScreens/NewsScreen.dart';
-import 'package:news_app/Screen/ArticlesScreens/WebSiteScreen.dart';
-import 'package:news_app/Screen/BusinessScreens/Germany.dart';
-import 'package:news_app/Screen/BusinessScreens/US.dart';
-import 'package:news_app/Screen/ChannelScreens/BBCNews.dart';
+import 'package:news_app/Screen/ArticlesScreens/News/NewsOffline.dart';
+import 'package:news_app/Screen/ArticlesScreens/WebSite/WebSiteOffline.dart';
+import 'package:news_app/Screen/BusinessScreens/GermanyFile/GermanyOffline.dart';
+import 'package:news_app/Screen/BusinessScreens/UsFile/UsOffline.dart';
+import 'package:news_app/Screen/ChannelScreens/BBcNewsFile/BBcNewsOffline.dart';
+import 'file:///G:/Flutter%20Projects/news_app/lib/Screen/ArticlesScreens/BitCone/BitConeOffline.dart';
+import 'file:///G:/Flutter%20Projects/news_app/lib/Screen/ArticlesScreens/BitCone/BitConeScreen.dart';
+import 'file:///G:/Flutter%20Projects/news_app/lib/Screen/ArticlesScreens/News/NewsScreen.dart';
+import 'file:///G:/Flutter%20Projects/news_app/lib/Screen/ArticlesScreens/WebSite/WebSiteScreen.dart';
+import 'file:///G:/Flutter%20Projects/news_app/lib/Screen/BusinessScreens/GermanyFile/Germany.dart';
+import 'file:///G:/Flutter%20Projects/news_app/lib/Screen/BusinessScreens/UsFile/US.dart';
+import 'file:///G:/Flutter%20Projects/news_app/lib/Screen/ChannelScreens/BBcNewsFile/BBCNews.dart';
 import 'package:news_app/Screen/Favorite.dart';
 import 'package:news_app/Screen/HelpPage.dart';
 import 'package:news_app/Screen/HomePage.dart';
-import 'package:news_app/Screen/PotiticalFiguarScreens/TrumpScreen.dart';
+import 'package:news_app/Screen/PotiticalFiguarScreens/Trump/TrumpOffline.dart';
+import 'file:///G:/Flutter%20Projects/news_app/lib/Screen/PotiticalFiguarScreens/Trump/TrumpScreen.dart';
 import 'package:news_app/Screen/Setting.dart';
 class NavigationDarwer extends StatefulWidget {
 
@@ -73,7 +80,7 @@ class _NavigationDarwerState extends State<NavigationDarwer> {
                   title: Text("Articles" , style: TextStyle(fontWeight: FontWeight.bold),),
                   children: <Widget>[
                     GestureDetector(
-                      onTap:()=>  Navigator.push(context, MaterialPageRoute(builder: (context)=> BitConeScreen())),
+                      onTap:()=>  Navigator.push(context, MaterialPageRoute(builder: (context)=> BitConeOffline())),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10 , right: 10 , bottom: 5),
                         child: Row(
@@ -86,7 +93,7 @@ class _NavigationDarwerState extends State<NavigationDarwer> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> NewsScreen())),
+                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> NewsOffline())),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10 , right: 10 , bottom: 5),
                         child: Row(
@@ -99,7 +106,7 @@ class _NavigationDarwerState extends State<NavigationDarwer> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> WebSiteScreen())),
+                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> WebSiteOffline())),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10 , right: 10 , bottom: 5),
                         child: Row(
@@ -126,7 +133,7 @@ class _NavigationDarwerState extends State<NavigationDarwer> {
                   title: Text("Channel" , style: TextStyle(fontWeight: FontWeight.bold),),
                   children: <Widget>[
                     GestureDetector(
-                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> BbcNewsScreen())),
+                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> BBcNewsOffline())),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10 , right: 10 , bottom: 5),
                         child: Row(
@@ -153,7 +160,7 @@ class _NavigationDarwerState extends State<NavigationDarwer> {
                   title: Text("Potitical Figuar" , style: TextStyle(fontWeight: FontWeight.bold),),
                   children: <Widget>[
                     GestureDetector(
-                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> TrumpScreen())),
+                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> TrumpOffline())),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10 , right: 10 , bottom: 5),
                         child: Row(
@@ -181,7 +188,7 @@ class _NavigationDarwerState extends State<NavigationDarwer> {
                   title: Text("Business" , style: TextStyle(fontWeight: FontWeight.bold),),
                   children: <Widget>[
                     GestureDetector(
-                      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> USNewsScreen())),
+                      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> UsOffline())),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10 , right: 10 , bottom: 5),
                         child: Row(
@@ -194,7 +201,7 @@ class _NavigationDarwerState extends State<NavigationDarwer> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> GermanyNewsScreen())),
+                      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> GermanyOffline())),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10 , right: 10 , bottom: 5),
                         child: Row(

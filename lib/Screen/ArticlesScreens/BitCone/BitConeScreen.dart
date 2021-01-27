@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:news_app/Bloc/Articles/BitConeBloc/BitConeBloc.dart';
 import 'package:news_app/Bloc/Articles/BitConeBloc/BitConeEvents.dart';
 import 'package:news_app/Bloc/Articles/BitConeBloc/BitConeStates.dart';
-
-import 'package:news_app/Models/ArticelsModel.dart';
+import 'package:news_app/Models/ArticlesModels/ArticelsModel.dart';
 import 'package:news_app/Screen/SinglePostPage.dart';
 import 'package:news_app/Screen/StateScreen/StateScreen.dart';
 import 'package:news_app/utilties/Handle_DateTime.dart';
-
-
-
 class BitConeScreen extends StatefulWidget {
   @override
   BitConeScreenState createState() => BitConeScreenState();
@@ -38,35 +35,41 @@ final _scrollThreshold = 200.0;
   }
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-    body: BlocBuilder<BitConeBloc , BitConeStates>(
-        builder: (context , state){
-          if(state is BitConeInitialState){
-            return InitialStateScreen();
+  return new BlocBuilder<BitConeBloc , BitConeStates>(
+      builder: (context , state){
+        if(state is BitConeInitialState){
+          return InitialStateScreen();
+        }
+        if(state is BitConeErrorState){
+          return new Center(child:
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("May be No Internet To Connection Please Check Your Connection and TryAgin" ,
+                style: TextStyle(color: Colors.red.shade900 , fontSize: 16), textAlign: TextAlign.center,),
+              Text(state.massage),
+            ],));
+        }
+        if(state is SuccessStateBitCone){
+          if (state.bitcones.isEmpty){
+            return const Center(child: Text("No data"),);
           }
-          if(state is BitConeErrorState){
-            return Center(child: Text(state.massage),);
-          }
-          if(state is SuccessStateBitCone){
-           if (state.bitcones.isEmpty){
-             return Center(child: Text("No data"),);
-           }
-           return ListView.builder(
+          return ListView.builder(
 
-               itemBuilder: (context ,int index){
-                 return index >= state.bitcones.length ?
-                     BottomLoader() :
-                     PostWigdet(post: state.bitcones[index],);
-               },
-             itemCount: state.hasReachedMax ?
-             state.bitcones.length :
-             state.bitcones.length +1,
-             controller: _scrollController,
-               );
-          } else
-            return Center(child: Text("Error"),);
-        }),
-  );
+            itemBuilder: (context ,int index){
+              return index >= state.bitcones.length ?
+              BottomLoader() :
+              PostWigdet(post: state.bitcones[index],);
+            },
+            itemCount: state.hasReachedMax ?
+            state.bitcones.length :
+            state.bitcones.length +1,
+            controller: _scrollController,
+          );
+        } else
+          return Center(child: Text("Error"),);
+      });
   }
 
   void _onScroll() {
@@ -82,9 +85,9 @@ final _scrollThreshold = 200.0;
 class BottomLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return new Container(
       alignment: Alignment.center,
-      child: Center(
+      child: new Center(
         child: SizedBox(
           width: 33,
           height: 33,
@@ -102,25 +105,25 @@ class PostWigdet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return new GestureDetector(
       onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (contex)=> SinglePostPage(post))),
-      child: Padding(
+      child: new Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Card(
+        child: new Card(
           elevation: 6,
           shadowColor: Colors.grey,
-          child: Padding(
+          child: new Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Column(
+            child: new Column(
               children: [
-                Container(
+                new Container(
                   width: double.infinity,
                   child: (post.urlToImage != null) ?
                   Image.network(post.urlToImage, fit: BoxFit.cover,):
                   Image.asset("assets/images/background.jpg" , fit: BoxFit.cover,),
                 ),
-                SizedBox(height: 10,),
-                Container(
+              const SizedBox(height: 10,),
+               new  Container(
                   padding: EdgeInsets.only(top: 10 , bottom: 10),
                   width: 200,
                   decoration: BoxDecoration(
@@ -136,7 +139,7 @@ class PostWigdet extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(left:10 , right: 10),
-                    child: Row(
+                    child: new  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Icon(Icons.person , color: Colors.black,),
@@ -149,10 +152,10 @@ class PostWigdet extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 drawBottomCard(),
 
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
               ],
             ),
           ),
@@ -161,28 +164,28 @@ class PostWigdet extends StatelessWidget {
     );
   }
   Widget drawBottomCard() {
-    return Padding(
+    return  new Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           (post.title != null) ?
-          Text(post.title , style:
+          new Text(post.title , style:
           TextStyle(color: Colors.black , fontWeight: FontWeight.bold , height: 1.4 , fontSize: 24),) :
-          Text("Loading...."),
-          SizedBox(height: 10,),
+         const  Text("Loading...."),
+         const  SizedBox(height: 10,),
           (post.publishedAt != null) ?
-          Card(
+         new  Card(
             elevation: 4,
             shadowColor: Colors.black,
-            child: Padding(
+            child: new  Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(timeAgo(DateTime.parse(post.publishedAt)) ,
                 style:TextStyle(color: Colors.red.shade900 , fontWeight: FontWeight.bold ,fontSize: 14),),
             ),
           )
-              :Text("Loading...."),
+              : const Text("Loading...."),
         ],
       ),
     );

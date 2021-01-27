@@ -2,8 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:news_app/Bloc/BottomNavBloc.dart';
-import 'package:news_app/Models/ArticelsModel.dart';
-import 'package:news_app/Models/ArticleResponse.dart';
+import 'package:news_app/Models/ArticlesModels/ArticelsModel.dart';
+import 'package:news_app/Models/ArticlesModels/ArticleResponse.dart';
 import 'package:news_app/Screen/SearchScreen.dart';
 import 'package:news_app/Screen/SinglePostPage.dart';
 

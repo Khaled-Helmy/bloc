@@ -1,8 +1,8 @@
 
 import 'package:dio/dio.dart';
-import 'package:news_app/Models/ArticelsModel.dart';
-import 'package:news_app/Models/ArticleResponse.dart';
-import 'package:news_app/Models/SourceResponse.dart';
+import 'package:news_app/Models/ArticlesModels/ArticelsModel.dart';
+import 'package:news_app/Models/ArticlesModels/ArticleResponse.dart';
+import 'package:news_app/Models/SourceModels/SourceResponse.dart';
 
 import 'API.dart';
 
@@ -13,12 +13,11 @@ class NewsClient {
   final String apiKey = "6ee60f5da4484e508695a30f407c3df1";
   final Dio _dio = Dio();
 
-
   Future<List<ArticleModel>> fetch_EveryThing(int startIndex, int limit) async{
     var param = {
-      "apiKey" :apiKey ,
       "q" : "Apple" ,
-      "sortBy" : "popularity"};
+      "sortBy" : "popularity",
+      "apiKey" :apiKey ,};
 
     try{
       Response response = await _dio.get(url_Articles , queryParameters: param);
@@ -153,8 +152,6 @@ class NewsClient {
   }
 
 
-
-
   Future<SourceResponse> fetch_Sources() async{
     var param = {
       "apiKey" :apiKey ,
@@ -168,24 +165,6 @@ class NewsClient {
     }
 
   }
-
-
-
-
-  Future<SourceResponse> fetch_SourceNews({String sourceID}) async{
-    var param = {
-      "apiKey" :apiKey ,
-      "sources" :sourceID };
-
-    try{
-      Response response = await _dio.get(url_Articles , queryParameters: param);
-      return SourceResponse.fromJson(response.data);
-    }catch(e , stackrace){
-      print("Exception occud : $e  stackrace $stackrace");
-    }
-
-  }
-
   Future<ArticleResponse> fetch_search( String searchValue ) async{
     var param = {
       "apiKey" :apiKey ,

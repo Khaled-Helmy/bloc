@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/Bloc/HomeBloc/HeadLineBloc/HeadLineBloc.dart';
 import 'package:news_app/Bloc/HomeBloc/HeadLineBloc/HeadLineEvents.dart';
 import 'package:news_app/Bloc/HomeBloc/HeadLineBloc/HeadLineStates.dart';
-import 'package:news_app/Models/ArticelsModel.dart';
-import 'package:news_app/Models/ArticleResponse.dart';
+import 'package:news_app/Models/ArticlesModels/ArticelsModel.dart';
+import 'package:news_app/Models/ArticlesModels/ArticleResponse.dart';
 import 'package:news_app/Screen/SinglePostPage.dart';
 import 'package:news_app/Screen/StateScreen/StateScreen.dart';
 import 'package:news_app/utilties/Handle_DateTime.dart';
@@ -24,8 +24,13 @@ class _HeadLineHomeState extends State<HeadLineHome> {
     super.initState();
   }
   @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HeadLineBloc , HeadLineStates>(
+    return new BlocBuilder<HeadLineBloc , HeadLineStates>(
       cubit: bloc ,
       builder: (context , state){
         if(state is HeadLineInitialState){
@@ -39,9 +44,17 @@ class _HeadLineHomeState extends State<HeadLineHome> {
             child: drawHeadLine(state.articles ,context),
           ): LoadingStateScreen();
         }else if (state is HeadLineErrorState){
-          return Center(child: Text(state.massage),);
+          return new Center(child:
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              new Text("May be No Internet To Connection Please Check Your Connection and TryAgin" ,
+                style: TextStyle(color: Colors.red.shade900 , fontSize: 16), textAlign: TextAlign.center,),
+              new Text(state.massage),
+            ],));
         }else
-          return Container(child: Text("Error"),);
+          return new Container(child: Text("Error"),);
       },
 
     );
@@ -61,7 +74,7 @@ Widget drawHeadLine(ArticleResponse articleResponse , context) {
     );
   }
   else
-    return Container(
+    return new Container(
       child: CarouselSlider(
         options: CarouselOptions(
           enlargeCenterPage: false ,
@@ -77,9 +90,9 @@ IteamHeadLine(List<ArticleModel> articles , context) {
   return articles.map((article) =>
       GestureDetector(
         onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> SinglePostPage(article))),
-        child: Container(
+        child: new Container(
           padding: EdgeInsets.all(12),
-          child: Stack(
+          child: new Stack(
             children: [
               Container(
                 padding: EdgeInsets.all(8.0),
@@ -95,7 +108,7 @@ IteamHeadLine(List<ArticleModel> articles , context) {
                     )
                 ),
               ),
-              Container(
+              new Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                   gradient: LinearGradient(
@@ -113,7 +126,7 @@ IteamHeadLine(List<ArticleModel> articles , context) {
 
                 ),
               ),
-              Positioned(
+              new Positioned(
                   bottom: 30.0,
                   child: Container(
                     padding: EdgeInsets.all(8),
@@ -126,7 +139,7 @@ IteamHeadLine(List<ArticleModel> articles , context) {
                       ],
                     ),
                   )),
-              Positioned(bottom: 10.0,
+              new Positioned(bottom: 10.0,
                   left: 10.0,
                   child: Text(article.sourceModel.name != null ?  article.sourceModel.name : "Loading" ,
                     style: TextStyle(fontSize: 14 , color: Colors.red.shade900  , fontWeight: FontWeight.bold),)),
